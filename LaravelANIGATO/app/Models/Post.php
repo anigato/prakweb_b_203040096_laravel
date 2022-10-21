@@ -16,4 +16,9 @@ class Post extends Model
     protected $guarded = [
         'id','created_at','published_at'
     ];
+
+    public function category(){
+        // relasi one to one post dengan category
+        return $this->belongsTo(Category::class);
+    }
 }
