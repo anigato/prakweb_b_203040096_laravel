@@ -17,8 +17,13 @@ class Post extends Model
         'id','created_at','published_at'
     ];
 
+    // relasi one to one | satu post hanya ada satu category
     public function category(){
-        // relasi one to one post dengan category
         return $this->belongsTo(Category::class);
+    }
+
+    // relasi one to one | satu post hanya ditulis satu user
+    public function user(){
+        return $this->belongsTo(User::class);
     }
 }
