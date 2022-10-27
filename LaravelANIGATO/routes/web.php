@@ -20,7 +20,8 @@ use Illuminate\Support\Facades\Route;
 // routing ke home
 Route::get('/', function () {
     return view('home', [
-        "title" => "Home"
+        "title" => "Home",
+        "active" => "home"
     ]);
 });
 
@@ -31,7 +32,8 @@ Route::get('/about', function () {
         "title" => "About",
         "name"  => "Khoerul Anam",
         "email" => "203040096@mail.unpas.ac.id",
-        "image" => "me.png"
+        "image" => "me.png",
+        "active" => "about"
     ]);
 });
 
@@ -47,6 +49,7 @@ Route::get('posts/{post:slug}', [PostController::class,'show']);
 Route::get('/categories', function(){
     return view('categories',[
         'title'=>'Post Categories',
+        "active" => "categories",
         'categories'=>Category::all()
     ]);
 });
@@ -55,6 +58,7 @@ Route::get('/categories', function(){
 Route::get('/categories/{category:slug}', function (Category $category) {
     return view('posts',[
         'title'=>"Post by Category : $category->name",
+        "active" => "categories",
         'posts'=>$category->posts->load('category','author'),
     ]);
 });
@@ -64,6 +68,7 @@ Route::get('/categories/{category:slug}', function (Category $category) {
 Route::get('/authors/{author:username}', function (User $author) {
     return view('posts',[
         'title'=>"Post by Author : $author->name",
+        "active" => "authors",
         'posts'=>$author->posts->load('category','author'),
     ]);
 });

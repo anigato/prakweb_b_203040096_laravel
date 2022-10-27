@@ -17,6 +17,8 @@ class Post extends Model
         'id','created_at','published_at'
     ];
 
+    protected $with = ['category','author'];
+
     // relasi one to one | satu post hanya ada satu category
     public function category(){
         return $this->belongsTo(Category::class);
