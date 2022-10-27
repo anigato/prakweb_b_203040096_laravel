@@ -23,7 +23,12 @@ class Post extends Model
     }
 
     // relasi one to one | satu post hanya ditulis satu user
-    public function user(){
-        return $this->belongsTo(User::class);
+    // public function user(){
+    //     return $this->belongsTo(User::class);
+    // }
+
+    //membuat alias user menjadi author
+    public function author(){
+        return $this->belongsTo(User::class,'user_id');
     }
 }

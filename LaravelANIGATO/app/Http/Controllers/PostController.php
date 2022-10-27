@@ -12,7 +12,8 @@ class PostController extends Controller
     {
         return view('posts', [
             "title" => "Posts",
-            "posts" => Post::all()
+            // "posts" => Post::all()//mengambil semua urut berdasarkan created_at
+            "posts" => Post::latest()->get()//mengambil semua urut created_at dari yg terakhir
         ]);
     }
 
