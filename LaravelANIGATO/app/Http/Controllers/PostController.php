@@ -11,9 +11,11 @@ class PostController extends Controller
     public function index()
     {
         return view('posts', [
-            "title" => "Posts",
+            "title" => "All Posts",
             // "posts" => Post::all()//mengambil semua urut berdasarkan created_at
-            "posts" => Post::latest()->get()//mengambil semua urut created_at dari yg terakhir
+            // "posts" => Post::latest()->get()//mengambil semua urut created_at dari yg terakhir
+            
+            "posts" => Post::with(['author','category'])->latest()->get()// mengatasi problem n+1 dengan memanggil tabel author dan category sekaligus ketika tabel post dipanggil
         ]);
     }
 
