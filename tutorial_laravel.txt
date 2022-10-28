@@ -1,0 +1,178 @@
+// laravel error 500
+1. CMD 
+composer update
+cp .env.example .env
+chmod 777 -R  storage
+php artisan key:generate   
+php artisan config:cache
+
+
+// php artisan error
+   CMD
+1. composer update
+
+// laravel error migations Illuminate\Database\QueryException atau spesicied key was too long; max key length is 767
+1. ctrl+p AppServiceProvider.php
+2. tambahkan Schema::defaultStringLength(191); pada method boot()
+3. CMD
+   php artisan migrate:rollback  //untuk hapus tabel sebelumnya atau 
+   php artisan migate:fresh  //untuk hapus tabel sebelumnya dan buat tabel ulang
+
+
+// aktifkan repositori git pada device baru
+
+1. CMD 
+git config user.name 'anigato'
+git config user.email '203040096@mail.unpas.ac.id'
+git remote add origin https://github.com/anigato/prakweb_b_203040096_laravel.git
+
+// menggunakan database seed
+   CMD jika ingin dibaut dari awal
+1. php artisan migrate:fresh --seed
+   CMD jika ingin menambahkan baru
+1. php artisan db:seed
+
+
+// menggunakan gambar dari api unsplash.com
+1. masukan tag img dengan src="https://source.unsplash.com/1200x400?namakategori"
+
+
+
+// shortcut
+1. ctrl+shift+p ketik 
+   artisan agar   //langsung dapat menggunakan perintah artisan
+
+
+// membuat controller
+1. ctrl+shift+p ketik 
+   artisan make controller > NamaController > basic > no >   //untuk membuat controller 
+   
+   artisan make controller > NamaController > resource > no >  //untuk membuat controller otomatis dibuat method crud
+atau
+1. CMD
+   php artisan make:controller NamaController //untuk membuat controller biasa
+   
+   php artisan make:controller NamaController -r
+   atau
+   php artisan make:controller NamaController --resource //untuk membuat controller otomatis dibuat method crud
+
+
+//membuat model
+1. CMD  //otomatis buat migration
+   php artisan make:model -m Namamodel
+atau
+1. ctrl+shift+p //otomatis buat migration
+   artisan make model > namamodel > yes >
+
+// migrations
+1. CMD 
+   //untuk migrasi tabel baru, jika sebelumnya ada tabel, maka tabel sebelumnya dibiarkan
+   php artisan migrate 
+
+   //untuk migrasi menghilangkan tabel sebelumnya
+   php artisan migrate:rollback 
+
+   //untuk migrasi menghilangkan tabel sebelumnya dan melakukan migrasi ulang
+   php artisan migrate:fresh
+
+// model
+1. protected $fillable = ['title','body']; //field yang boleh diisi, selain itu tidak boleh
+2. protected $guarded = ['id']; //field yang tidak boleh diisi, sisanya boleh
+
+
+// menggunakan tinker
+1. CMD
+   php artisan tinker //akan masuk shell yang dapat langsung menghubungkan dengan laravel
+
+2. membuat objek baru
+   $user = New App\Models\User;
+
+   $user->name = 'Khoerul Anam'
+   $user->email = '203040096@mail.unpas.ac.id'
+   $user->password = bcrypt('khoerulanam')
+
+   // data belum masuk db,masukan dengan
+   $user->save() //berhasil jika output 
+
+3. lihat isi dalam tabel user
+   $user->all() //hasil return sudah menjadi collection
+
+4. lihat isi data pertama
+   $user->first()
+
+5. lihat isi berdasarkan id
+   $user->find(2) //2 adalah parameter id
+
+6. langsung tangani jika data tidak ditemukan, jika ketemu tampilkan , jika tidak akan keluar error
+   $user->findOrFail(2000) //akan error yang menunjukan tidak ada user id 2000 jika memang tidak ada user dengan id 2000,
+
+7. lihat isi semua field dengan model
+   //Namamodel::all()
+   Post::all()
+
+8. lihat isi satu field dengan model
+   Namamodel::pluck(parameter/namafield)
+   Post::pluck('title')
+
+// merubah lokasi geografis faker
+1. buka config/app.php
+2. ubah pada 'faker_locale' menjadi 'faker_locale' => env('FAKER_LOCALE','en_US'),
+3. buka .env lalu tulis pada baris terakhir FAKER_LOCALE=id_ID
+
+//membuat faker / factory
+1. CMD
+   php artisan make:factory NamaFactory
+
+
+// clockwork
+sebuah library untuk mengetahui aplikasi memanggil ke db berapa kali untuk mengecek performa.
+websitenya https://github.com/itsgoingd/clockwork
+
+1. install library dengan 
+   composer require itsgoingd/clockwork
+2. instal ekstensi di browser chrome, firefox & safari
+   setting > more tools > ekstension > klik garis tiga dikiri > open chrome web store
+atau
+   https://chrome.google.com/webstore/category/extensions?hl=en-US
+3. cari clockwork
+4. add to chrome
+
+
+// menggunakan clockwork
+1. klik kanan pada aplikasi > inspect > tab clockwork
+
+
+// cara menggunakan EAGER LOADING jika menggunakan Route biasa
+seperti routing ke blog
+Route::get('/posts', [PostController::class, 'index']);
+
+pada PostController :
+
+awalnya   "posts" => Post::latest()->get()
+
+ditambah with('namatabel') jika ingin menggabungkan dengan 1 tabel atau with(['namatabel1','namatabel2']) jika ingin menggabungkan 2 tabel
+
+"posts" => Post::with(['author','category'])->latest()->get()
+
+mengatasi problem n+1 dengan memanggil tabel author dan category sekaligus ketika tabel post dipanggil
+
+atau pada model Post :
+
+buat method baru
+
+protected $with = ['category','author'];
+
+
+// cara menggunakan LAZZY EAGER LOADING jika menggunakan Route model binding
+seperti route ke author berdasarkan parameter slug
+Route::get('/authors/{author:username}', function (User $author) {
+    return view('posts',[
+        'posts'=>$author->posts,
+    ]);
+});
+
+pada 'posts'=>$author->posts ditambahkan load('namatabel1','namatabel2')
+
+'posts'=>$author->posts->load('category','author'),
+
+
