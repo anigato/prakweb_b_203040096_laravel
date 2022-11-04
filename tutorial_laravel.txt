@@ -1,22 +1,32 @@
+// pertamakali setelah clone project
+composer update
+cp .env.example .env
+chmod 777 -R  storage
+php artisan key:generate
+php artisan config:cache
+php artisan migrate:fresh --seed
+
+
 // laravel error 500
 1. CMD 
 composer update
 cp .env.example .env
 chmod 777 -R  storage
-php artisan key:generate   
+php artisan key:generate
 php artisan config:cache
 
 
 // php artisan error
-   CMD
-1. composer update
+1. CMD
+composer update
+
 
 // laravel error migations Illuminate\Database\QueryException atau spesicied key was too long; max key length is 767
 1. ctrl+p AppServiceProvider.php
 2. tambahkan Schema::defaultStringLength(191); pada method boot()
 3. CMD
    php artisan migrate:rollback  //untuk hapus tabel sebelumnya atau 
-   php artisan migate:fresh  //untuk hapus tabel sebelumnya dan buat tabel ulang
+   php artisan migrate:fresh  //untuk hapus tabel sebelumnya dan buat tabel ulang
 
 
 // aktifkan repositori git pada device baru

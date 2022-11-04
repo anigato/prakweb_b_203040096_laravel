@@ -97,3 +97,10 @@ code . = untuk otomatis buka code editor
 git remote add origin https://github.com/anigato/prakweb_b_203040096.git = untuk mengkoneksikan github kedalam git di komputer
 
 git push -u origin main = untuk push file ke github branch main
+
+
+folder vendor tidak ikut masuk ke github karena berisi library yang dibutuhkan laravel dengan ukuran yang besar
+
+untuk mengintal vendor, bisa menggunakan
+composer install untuk instal versi vendor yang sama seperti sebelumnya
+atau composer update untuk instal versi vendor terbaru
