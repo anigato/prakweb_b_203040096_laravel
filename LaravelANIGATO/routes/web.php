@@ -72,6 +72,10 @@ Route::get('/login', [LoginController::class, 'index']);
 //routing ke register
 Route::get('/register', [RegisterController::class, 'index']);
 
+//mengisi form register
+Route::post('/register', [RegisterController::class, 'store']);
+
+
 
 // //route ke category berdasarkan parameter slug
 // Route::get('/categories/{category:slug}', function (Category $category) {

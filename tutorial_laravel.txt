@@ -1,15 +1,21 @@
-// pertamakali setelah clone project
-composer update
+// clone project
+git clone https://github.com/anigato/prakweb_b_203040096_laravel.git
+composer install
 cp .env.example .env
+-- APP_NAME=LaravelANIGATO
+-- DB_DATABASE=laravelanigato
+-- DB_USERNAME=root
+-- DB_PASSWORD=
 chmod 777 -R  storage
 php artisan key:generate
 php artisan config:cache
+-- buat db laravelanigato
 php artisan migrate:fresh --seed
 
 
 // laravel error 500
 1. CMD 
-composer update
+composer install
 cp .env.example .env
 chmod 777 -R  storage
 php artisan key:generate
@@ -18,7 +24,7 @@ php artisan config:cache
 
 // php artisan error
 1. CMD
-composer update
+composer install atau composer update
 
 
 // laravel error migations Illuminate\Database\QueryException atau spesicied key was too long; max key length is 767

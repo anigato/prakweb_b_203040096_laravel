@@ -104,3 +104,9 @@ folder vendor tidak ikut masuk ke github karena berisi library yang dibutuhkan l
 untuk mengintal vendor, bisa menggunakan
 composer install untuk instal versi vendor yang sama seperti sebelumnya
 atau composer update untuk instal versi vendor terbaru
+
+teknik serangan pada form bisa ditangani dengan CSRF (Cross-site request forgery)
+
+
+daftar rule validate laravel
+https://laravel.com/docs/8.x/validation#available-validation-rules
