@@ -1,11 +1,13 @@
 <?php
 
-use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\DashboardPostController;
+
 use App\Models\Category;
 use App\Models\User;
+
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,8 +24,7 @@ use Illuminate\Support\Facades\Route;
 // routing ke halaman home
 Route::get('/', function () {
     return view('home', [
-        "title" => "Home",
-        "active" => "home"
+        "title" => "Home"
     ]);
 });
 
@@ -34,8 +35,7 @@ Route::get('/about', function () {
         "title" => "About",
         "name"  => "Khoerul Anam",
         "email" => "203040096@mail.unpas.ac.id",
-        "image" => "me.png",
-        "active" => "about"
+        "image" => "me.png"
     ]);
 });
 
@@ -51,7 +51,6 @@ Route::get('posts/{post:slug}', [PostController::class,'show']);
 Route::get('/categories', function(){
     return view('categories',[
         'title'=>'Post Categories',
-        "active" => "categories",
         'categories'=>Category::all()
     ]);
 });
@@ -60,7 +59,6 @@ Route::get('/categories', function(){
 Route::get('/authors', function(){
     return view('authors',[
         'title'=>'Post Authors',
-        "active" => "authors",
         'authors'=>User::all()
     ]);
 });
@@ -81,7 +79,13 @@ Route::post('/register', [RegisterController::class, 'store']);
 
 
 //routing ke halaman dashboard
-Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth');
+Route::get('/dashboard', function(){
+    return view('dashboard.index');
+})->middleware('auth');
+
+
+//route resource (CRUD) dashboard post
+Route::resource('/dashboard/posts', DashboardPostController::class)->middleware('auth');
 
 // //route ke category berdasarkan parameter slug
 // Route::get('/categories/{category:slug}', function (Category $category) {
