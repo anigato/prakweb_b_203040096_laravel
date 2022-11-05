@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\RegisterController;
@@ -18,7 +19,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// routing ke home
+// routing ke halaman home
 Route::get('/', function () {
     return view('home', [
         "title" => "Home",
@@ -26,7 +27,7 @@ Route::get('/', function () {
     ]);
 });
 
-// routing ke about
+// routing ke halaman about
 Route::get('/about', function () {
     // Mengirimkan data ke view
     return view('about', [
@@ -39,14 +40,14 @@ Route::get('/about', function () {
 });
 
 
-// routing ke blog
+// routing ke halaman blog, menampilkan semua post
 Route::get('/posts', [PostController::class, 'index']);
 
-//route ke posting blog 
+//route ke ke halaman blog, menampilkan 1 post
 // parameter hanya ditulis pada url, tidak harus ditulis dengan parameter pada method
 Route::get('posts/{post:slug}', [PostController::class,'show']);
 
-//routing ke category
+//routing ke halaman category
 Route::get('/categories', function(){
     return view('categories',[
         'title'=>'Post Categories',
@@ -55,7 +56,7 @@ Route::get('/categories', function(){
     ]);
 });
 
-//routing ke author
+//routing ke halaman author
 Route::get('/authors', function(){
     return view('authors',[
         'title'=>'Post Authors',
@@ -65,17 +66,22 @@ Route::get('/authors', function(){
 });
 
 
-//routing ke login
-Route::get('/login', [LoginController::class, 'index']);
+//routing ke halaman login | middleware guest artinya halaman ini hanya bisa diakses oleh user yang belum autentikasi/login
+Route::get('/login', [LoginController::class, 'index'])->middleware('guest')->name('login');
+//login
+Route::post('/login', [LoginController::class, 'authenticate']);
+//logout
+Route::post('/logout', [LoginController::class, 'logout']);
 
 
-//routing ke register
-Route::get('/register', [RegisterController::class, 'index']);
-
-//mengisi form register
+//routing ke halaman register
+Route::get('/register', [RegisterController::class, 'index'])->middleware('guest');
+//register
 Route::post('/register', [RegisterController::class, 'store']);
 
 
+//routing ke halaman dashboard
+Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth');
 
 // //route ke category berdasarkan parameter slug
 // Route::get('/categories/{category:slug}', function (Category $category) {
