@@ -34,7 +34,7 @@
             <!-- /.row -->
             <div class="row">
                <div class="col-lg-8">
-                  <form action="/dashboard/posts" method="post">
+                  <form action="/dashboard/posts" method="post" enctype="multipart/form-data">
                         @csrf
                         <div class="form-group mb-3">
                            <label for="title">Title</label>
@@ -62,6 +62,15 @@
                               @endforeach
                            </select>
                         </div>
+                        <div class="form-group">
+                           <label for="image" class="form-label">Image</label>
+                           <input class="form-control @error('image') is-invalid @enderror" type="file" id="image" name="image">
+                           @error('image')
+                              <div class="invalid-feedback">
+                                 {{ $message }}
+                              </div>
+                           @enderror
+                        </div>
                         <div class="form-group mb-3">
                            <label for="body">Body</label>
                            @error('body')
@@ -70,7 +79,6 @@
                            <input id="body" type="hidden" name="body" value="{{ old('body') }}">
                            <trix-editor input="body"></trix-editor>
                         </div>
-
                         <button type="submit" class="btn btn-primary">Create new post</button>
                   </form>
                </div>
