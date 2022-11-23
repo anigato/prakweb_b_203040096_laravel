@@ -41,7 +41,7 @@
                </a>
             </li>
             <li class="nav-item">
-               <a href="/dashboard/posts" class="nav-link {{ Request::is('dashboard/posts') ? 'active' : '' }}">
+               <a href="/dashboard/posts" class="nav-link {{ Request::is('dashboard/posts*') ? 'active' : '' }}">
                   <i class="bi bi-file-earmark-text"></i> My Posts
                </a>
             </li>

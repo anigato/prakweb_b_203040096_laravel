@@ -83,6 +83,8 @@ Route::get('/dashboard', function(){
     return view('dashboard.index');
 })->middleware('auth');
 
+// route untuk menggunakan fetch js mengambil method checkslug
+Route::get('/dashboard/posts/checkSlug', [DashboardPostController::class, 'checkSlug'])->middleware('auth');
 
 //route resource (CRUD) dashboard post
 Route::resource('/dashboard/posts', DashboardPostController::class)->middleware('auth');

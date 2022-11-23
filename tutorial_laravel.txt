@@ -53,6 +53,35 @@ git remote add origin https://github.com/anigato/prakweb_b_203040096_laravel.git
 1. masukan tag img dengan src="https://source.unsplash.com/1200x400?namakategori"
 
 
+// tutorial git dan github
+// mengganti message commit
+1. mengganti 1 commit terakhir
+git commit --amand (enter)
+- (insert), ubah commitnya
+- (esc) lalu ketik :wq (enter)
+git push -f
+
+2. mengganti 2 commit terakhir
+git rebase -i HEAD~2
+
+
+// membuat slug otomatis
+tutorial penggunaan slug ada pada video wpu laravel 18
+instal eloquent slugable dengan composer
+https://github.com/cviebrock/eloquent-sluggable
+
+1. buka composer
+2. paste composer require cviebrock/eloquent-sluggable
+3. update model yang akan menggunakan slug
+4. ikuti instruksi sesuai githubnya
+
+
+//link select 2 bootstrap
+https://apalfrey.github.io/select2-bootstrap-5-theme/
+
+
+//link text editor trix
+https://github.com/basecamp/trixd/
 
 // shortcut
 1. ctrl+shift+p ketik 
@@ -192,3 +221,6 @@ pada 'posts'=>$author->posts ditambahkan load('namatabel1','namatabel2')
 'posts'=>$author->posts->load('category','author'),
 
 
+// menggunakan middleware authentication
+untuk mengubah lokasi default home ketika middleware auth dijalankan, 
+ctrl+shift+p > routeserviseprovider.php > ubah public const HOME = '/home'; menjadi public const HOME = '/';

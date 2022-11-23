@@ -9,7 +9,7 @@
 @endsection
 @section('container')
    <!-- Content Header (Page header) -->
-   <div class="content">
+   <div class="content mb-3">
       <div class="content-header">
          <div class="container-fluid">
                <div class="row mb-2">
@@ -28,34 +28,57 @@
       </div>
       <!-- /.content-header -->
 
-      <div class="col-lg-8">
-         <form action="/dashboard/posts" method="post">
-               @csrf
-               <div class="form-group mb-3">
-                  <label for="title">Title</label>
-                  <input type="text" class="form-control" id="title" placeholder="title" name="title">
-               </div>
-               <div class="form-group mb-3">
-                  <label for="slug">Slug</label>
-                  <input type="text" class="form-control" id="slug" placeholder="slug" name="slug">
-               </div>
-               <div class="form-group mb-3">
-                  <label for="category_id">Category</label>
-                  <select class="form-select" id="category_id" data-placeholder="category_id" name="category_id">
-                     @foreach ($categories as $category)
-                           <option value="{{ $category->id }}">{{ $category->name }}</option>
-                     @endforeach
-                  </select>
-               </div>
-               <div class="form-group mb-3">
-                  <label for="body">Body</label>
-                  <input id="body" type="hidden" name="body">
-                  <trix-editor input="body"></trix-editor>
-               </div>
+      <!-- Main content -->
+      <section class="content">
+         <div class="container-fluid">
+            <!-- /.row -->
+            <div class="row">
+               <div class="col-lg-8">
+                  <form action="/dashboard/posts" method="post">
+                        @csrf
+                        <div class="form-group mb-3">
+                           <label for="title">Title</label>
+                           <input type="text" class="form-control @error('title') is-invalid @enderror" id="title" placeholder="title" name="title" required autofocus value="{{ old('title') }}">
+                           @error('title')
+                              <div class="invalid-feedback">
+                                 {{ $message }}
+                              </div>
+                           @enderror
+                        </div>
+                        <div class="form-group mb-3">
+                           <label for="slug">Slug</label>
+                           <input type="text" class="form-control @error('slug') is-invalid @enderror" id="slug" placeholder="slug" name="slug" required value="{{ old('slug') }}">
+                           @error('slug')
+                              <div class="invalid-feedback">
+                                 {{ $message }}
+                              </div>
+                           @enderror
+                        </div>
+                        <div class="form-group mb-3">
+                           <label for="category_id">Category</label>
+                           <select class="form-select" id="category_id" data-placeholder="category_id" name="category_id">
+                              @foreach ($categories as $category)
+                                 <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>{{ $category->name }}</option>
+                              @endforeach
+                           </select>
+                        </div>
+                        <div class="form-group mb-3">
+                           <label for="body">Body</label>
+                           @error('body')
+                           <p class="text-danger">{{ $message }}</p>
+                           @enderror
+                           <input id="body" type="hidden" name="body" value="{{ old('body') }}">
+                           <trix-editor input="body"></trix-editor>
+                        </div>
 
-               <button type="submit" class="btn btn-primary">Create new post</button>
-         </form>
-      </div>
+                        <button type="submit" class="btn btn-primary">Create new post</button>
+                  </form>
+               </div>
+            </div>
+            <!-- /.row -->
+         </div><!-- /.container-fluid -->
+      </section>
+      <!-- /.content -->
    </div>
 
 
@@ -71,8 +94,8 @@
                .then(response => response.json())
                .then(data => slug.value = data.slug)
       })
-
    </script>
+
    {{-- select 2 --}}
    <script>
       $('#category_id').select2({
@@ -80,6 +103,7 @@
          width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
       });
    </script>
+
    {{-- hilangkan fungsi upload gambar trix editor --}}
    <script>
       document.addEventListener('trix-file-accept', function (e){

@@ -4,6 +4,11 @@
    <div class="content-header">
       <div class="container-fluid">
       <div class="row mb-2">
+         @if (session()->has('success'))
+            <div class="alert alert-success" role="alert">
+               {{ session('success') }}
+            </div>
+         @endif
          <div class="col-sm-6">
             <h1 class="m-0">My Posts</h1>
          </div><!-- /.col -->
@@ -17,72 +22,73 @@
       </div><!-- /.container-fluid -->
    </div>
    <!-- /.content-header -->
-
+   
    <!-- Main content -->
    <section class="content">
       <div class="container-fluid">
          <!-- /.row -->
          <div class="row">
             <div class="col-12">
-            <div class="card">
-               <div class="card-header">
-                  <h3 class="card-title">Fixed Header Table</h3>
-                  <div class="card-tools">
-                     <div class="input-group input-group-sm" style="width: 150px;">
+               <a href="/dashboard/posts/create" class="btn btn-success mb-3">Create new posts</a>
+               <div class="card">
+                  <div class="card-header">
+                     <h3 class="card-title">List of all my posts</h3>
+                     <div class="card-tools">
+                        <div class="input-group input-group-sm" style="width: 150px;">
 
-                        <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
-   
-                        <div class="input-group-append">
-                           <button type="submit" class="btn btn-default">
-                              <i class="bi bi-search"></i>
-                           </button>
+                           <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+      
+                           <div class="input-group-append">
+                              <button type="submit" class="btn btn-default">
+                                 <i class="bi bi-search"></i>
+                              </button>
+                           </div>
+                        </div>
                         </div>
                      </div>
-                     </div>
+                  <!-- ./card-header -->
+                  <div class="card-body table-responsive p-0" style="height: 24rem;">
+                     <table class="table table-bordered table-hover table-head-fixed text-nowrap">
+                     <thead>
+                        <tr>
+                           <th>#</th>
+                           <th>Title</th>
+                           <th>Category</th>
+                           <th>Status</th>
+                           <th>Action</th>
+                        </tr>
+                     </thead>
+                     <tbody>
+                        @foreach ($posts as $post)
+                           <tr data-widget="expandable-table" aria-expanded="false">
+                              <td>{{ $loop->iteration }}</td>
+                              <td>{{ $post->title }}</td>
+                              <td>{{ $post->category->name }}</td>
+                              <td>Posted</td>
+                              <td>
+                                 <div class="badge bg-info">
+                                    <a href="/dashboard/posts/{{ $post->slug }}"><i class="bi bi-eye-fill"></i></a>
+                                 </div>
+                                 <div class="badge bg-warning">
+                                    <a href=""><i class="bi bi-pencil"></i></a>
+                                 </div>
+                                 <div class="badge bg-danger">
+                                    <a href=""><i class="bi bi-trash"></i></a>
+                                 </div>
+                              </td>
+                           </tr>
+                           <tr class="expandable-body">
+                              <td colspan="5">
+                              <p>{{ $post->excerpt }}</p>
+                              </td>
+                           </tr>
+                        @endforeach
+                        
+                     </tbody>
+                     </table>
                   </div>
-               <!-- ./card-header -->
-               <div class="card-body table-responsive p-0" style="height: 24rem;">
-                  <table class="table table-bordered table-hover table-head-fixed text-nowrap">
-                  <thead>
-                     <tr>
-                        <th>#</th>
-                        <th>Title</th>
-                        <th>Category</th>
-                        <th>Status</th>
-                        <th>Action</th>
-                     </tr>
-                  </thead>
-                  <tbody>
-                     @foreach ($posts as $post)
-                        <tr data-widget="expandable-table" aria-expanded="false">
-                           <td>{{ $loop->iteration }}</td>
-                           <td>{{ $post->title }}</td>
-                           <td>{{ $post->category->name }}</td>
-                           <td>Posted</td>
-                           <td>
-                              <div class="badge bg-info">
-                                 <a href="/dashboard/posts/{{ $post->slug }}"><i class="bi bi-eye-fill"></i></a>
-                              </div>
-                              <div class="badge bg-warning">
-                                 <a href=""><i class="bi bi-pencil"></i></a>
-                              </div>
-                              <div class="badge bg-danger">
-                                 <a href=""><i class="bi bi-trash"></i></a>
-                              </div>
-                           </td>
-                        </tr>
-                        <tr class="expandable-body">
-                           <td colspan="5">
-                           <p>{{ $post->excerpt }}</p>
-                           </td>
-                        </tr>
-                     @endforeach
-                     
-                  </tbody>
-                  </table>
+                  <!-- /.card-body -->
                </div>
-               <!-- /.card-body -->
-            </div>
             <!-- /.card -->
             </div>
          </div>
