@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminCategoryController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\RegisterController;
@@ -88,6 +89,10 @@ Route::get('/dashboard/posts/checkSlug', [DashboardPostController::class, 'check
 
 //route resource (CRUD) dashboard post
 Route::resource('/dashboard/posts', DashboardPostController::class)->middleware('auth');
+
+
+//route resource (CRUD) dashboard category
+Route::resource('/dashboard/categories', AdminCategoryController::class)->except('show')->middleware('isAdmin');
 
 // //route ke category berdasarkan parameter slug
 // Route::get('/categories/{category:slug}', function (Category $category) {
