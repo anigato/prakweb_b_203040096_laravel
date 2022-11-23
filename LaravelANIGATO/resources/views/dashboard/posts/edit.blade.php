@@ -34,7 +34,7 @@
             <!-- /.row -->
             <div class="row">
                <div class="col-lg-8">
-                  <form action="/dashboard/posts/{{ $post->slug }}" method="post">
+                  <form action="/dashboard/posts/{{ $post->slug }}" method="post" enctype="multipart/form-data">
                      @method('put')
                      @csrf
                      <div class="form-group mb-3">
@@ -63,6 +63,21 @@
                            @endforeach
                         </select>
                      </div>
+                     <div class="form-group">
+                        <label for="image" class="form-label">Image</label>
+                        <input type="hidden" name="oldImage" value="{{ $post->image }}">
+                        <input class="form-control @error('image') is-invalid @enderror" type="file" id="image" name="image" onchange="previewImage()">
+                        @error('image')
+                        <div class="invalid-feedback">
+                           {{ $message }}
+                        </div>
+                        @enderror
+                        @if ($post->image)
+                           <img src="{{ asset('storage/'.$post->image) }}" class="img-preview img-fluid mt-3 col-sm-5 d-block">
+                        @else
+                           <img class="img-preview img-fluid mt-3 col-sm-5">
+                        @endif
+                     </div>
                      <div class="form-group mb-3">
                         <label for="body">Body</label>
                         @error('body')
@@ -85,30 +100,40 @@
 
 @endsection
 @section('script')
-   {{-- fech api js, untuk otomatis panggil method --}}
-   <script>
-      const title = document.querySelector('#title');
-      const slug = document.querySelector('#slug');
+<script>
+   // fech api js, untuk otomatis panggil method
+   const title = document.querySelector('#title');
+   const slug = document.querySelector('#slug');
 
-      title.addEventListener('change', function() {
-         fetch('/dashboard/posts/checkSlug?title=' + title.value)
-               .then(response => response.json())
-               .then(data => slug.value = data.slug)
-      })
-   </script>
+   title.addEventListener('change', function() {
+      fetch('/dashboard/posts/checkSlug?title=' + title.value)
+            .then(response => response.json())
+            .then(data => slug.value = data.slug)
+   })
 
-   {{-- select 2 --}}
-   <script>
-      $('#category_id').select2({
-         theme: "bootstrap-5",
-         width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
-      });
-   </script>
+   // select 2
+   $('#category_id').select2({
+      theme: "bootstrap-5",
+      width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+   });
 
-   {{-- hilangkan fungsi upload gambar trix editor --}}
-   <script>
-      document.addEventListener('trix-file-accept', function (e){
-         e.preventDefault();
-      })
-   </script>
+   // hilangkan fungsi upload gambar trix editor
+   document.addEventListener('trix-file-accept', function (e){
+      e.preventDefault();
+   })
+
+   // preview image ketika baru dipilih
+   function previewImage(){
+      const image = document.querySelector('#image');
+      const imgPreview = document.querySelector('.img-preview')
+
+      imgPreview.style.display = 'block';
+
+      const oFReader = new FileReader();
+      oFReader.readAsDataURL(image.files[0]);
+      oFReader.onload = function(oFREvent){
+         imgPreview.src = oFREvent.target.result;
+      }
+   }
+</script>
 @endsection
