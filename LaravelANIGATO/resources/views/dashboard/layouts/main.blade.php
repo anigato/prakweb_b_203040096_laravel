@@ -52,7 +52,7 @@
       <footer class="main-footer">
          <strong>Copyright &copy; 2022 <a href="https://github.com/anigato">Khoerul Anam 203040096</a>.</strong> Universitas Pasundan.
          <div class="float-right d-none d-sm-inline-block">
-               <b>Version</b> 1.19.1
+               <b>Version</b> 1.20.1
          </div>
       </footer>
    </div>

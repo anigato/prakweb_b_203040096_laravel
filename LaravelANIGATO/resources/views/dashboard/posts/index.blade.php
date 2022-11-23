@@ -14,7 +14,7 @@
          </div><!-- /.col -->
          <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item"><a href="/dashboard">Home</a></li>
             <li class="breadcrumb-item active">My Posts</li>
             </ol>
          </div><!-- /.col -->
@@ -47,7 +47,7 @@
                         </div>
                      </div>
                   <!-- ./card-header -->
-                  <div class="card-body table-responsive p-0" style="height: 24rem;">
+                  <div class="card-body table-responsive p-0" style="height: 28rem;">
                      <table class="table table-bordered table-hover table-head-fixed text-nowrap">
                      <thead>
                         <tr>
@@ -70,11 +70,13 @@
                                     <a href="/dashboard/posts/{{ $post->slug }}"><i class="bi bi-eye-fill"></i></a>
                                  </div>
                                  <div class="badge bg-warning">
-                                    <a href=""><i class="bi bi-pencil"></i></a>
+                                    <a href="/dashboard/posts/{{ $post->slug }}/edit"><i class="bi bi-pencil"></i></a>
                                  </div>
-                                 <div class="badge bg-danger">
-                                    <a href=""><i class="bi bi-trash"></i></a>
-                                 </div>
+                                 <form action="/dashboard/posts/{{ $post->slug }}" method="post" class="d-inline">
+                                    @method('delete')
+                                    @csrf
+                                    <button class="badge bg-danger border-0" onclick="return confirm('Are you sure to delete this post?')"><i class="bi bi-trash"></i></button>
+                                 </form>
                               </td>
                            </tr>
                            <tr class="expandable-body">
