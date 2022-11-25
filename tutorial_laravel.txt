@@ -83,6 +83,75 @@ https://apalfrey.github.io/select2-bootstrap-5-theme/
 //link text editor trix
 https://github.com/basecamp/trixd/
 
+
+//membuat custom middleware, agar sebuah logic dapat dipanggil dimanapun
+contoh
+   public function index(){   
+        if (auth()->guest() || auth()->user()->username != 'admin') {
+            abort(403);
+        }
+   }
+
+   public function edit(){}
+   
+   fungsi didalam index() ingin dipanggil di edit() juga, tapi tanpa copas.
+1. CMD
+   php artisan make:middleware IsAdmin
+2. masukan logic kedalam handle() sebelum return
+3. masuk file kernel.php
+4. tulis pada baris terakhir protected $routeMiddleware = [
+   'isAdmin'=> \Illuminate\Http\Middleware\IsAdmin::class,
+   // isAdmin adalah nama middleware yang baru dibuat. namanya bebas
+5. tambah pada web.php pada route
+   ->middleware('isAdmin')
+
+
+
+//buat gate untuk hak akses
+1. buka AppServiceProvider.php
+2. tambah 
+   use Illuminate\Support\Facades\Gate;
+3. tambahkan pada boot()
+   Gate::define('admin', function(User $user){
+      return $user->username === 'admin';
+   });
+   // define('admin') adalah nama gate, bebas
+   // === 'admin' adalah username pada db yang dianggap sebagai admin
+
+   Gate::define('admin', function(User $user){
+      return $user->is_admin;
+   });
+   // is_admin adalah field boolean pada tabel user,
+
+4. tambah pada method yang ingin menggunakan gate admin
+   //misal pada AdminCategoryController method index()
+
+   $this->authorize('admin');
+   
+   //return;
+   // artinya hanya yang memiliki akses gate 'admin' yang dapat menggunakan logic return
+
+atau
+4. tambah pada logic menggunakan gate admin
+   //misal pada sidebar
+
+   @can('admin')
+
+   <span>Administrator</span>
+
+   @endcan
+   // span administrator tidak akan dibaca jika yang login bukan yang memiliki akses admin
+
+
+//membuat migrasi sisipan, agar tidak perlu menimpa data migrasi yang sudah ada
+1. CMD
+   php artisan make:migration add_is_admin_to_users_table
+   php artisan migrate
+
+//menghubungkan folder public dalam folder storage untuk upload file ke folder public yang dapat diakses siapapun
+1. CMD
+   php artisan storage:link
+
 // shortcut
 1. ctrl+shift+p ketik 
    artisan agar   //langsung dapat menggunakan perintah artisan
